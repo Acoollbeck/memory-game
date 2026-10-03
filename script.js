@@ -1,3 +1,5 @@
+///////////// DOM tree generate //////////////////////////////
+
 const header = document.createElement('header');
 const headerContainer = document.createElement('div');
 const headerScore = document.createElement('div')
@@ -33,11 +35,11 @@ for (let i = 0; i < 2; i++) {
   const headerScoreValue = document.createElement('span');
 
   if(i === 1) {
-    headerScoreLabel.textContent = 'Moves';
+    headerScoreLabel.textContent = 'Moves: ';
     headerScoreValue.textContent = '0'
   } else {
-    headerScoreLabel.textContent = 'Attempts';
-    headerScoreValue.textContent = '0'
+    headerScoreLabel.textContent = 'Successfully: ';
+    headerScoreValue.textContent = '0/8'
   }
 
   headerScoreItem.classList.add('header__score-item');
@@ -54,13 +56,37 @@ main.append(hero)
 hero.append(heroContainer);
 heroContainer.append(heroList);
 
+const cards = [];
+
+for (let i = 1; i <= 8; i++) {
+  cards.push(i, i);
+}
+
+const newCards = []
+
+for (let i = 0; i < 16; i++) {
+  const card = cards[Math.floor(Math.random() * cards.length)]
+  newCards.push(card)
+  cards.splice(cards.indexOf(card), 1);
+}
+
 for (let i = 0; i < 16; i++) {
   const heroCard = document.createElement('li');
+  const heroImage = document.createElement('img');
 
   heroCard.classList.add('hero__card');
-
+  heroCard.append(heroImage);
+  heroImage.src = `cards/${[newCards[i]]}.jpg`;
   heroList.append(heroCard);
 }
 
 document.body.append(footer);
 footer.append(footerContainer);
+
+
+/////////////////// Main functional ////////////////////////
+
+heroList.addEventListener('click', (event) => {
+  event.target.style.backgroundColor = 'blue';
+  console.log(event.target);
+})

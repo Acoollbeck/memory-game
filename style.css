@@ -1,0 +1,46 @@
+ul {
+  list-style-type: none;
+}
+
+body {
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: 600;
+  font-size: 30px;
+}
+
+.container {
+  max-width: 1350px;
+  margin: 0 auto;
+}
+
+.header {
+  padding: 50px;
+}
+
+.header__score {
+  display: flex;
+  justify-content: space-between;
+  gap: 50px;
+}
+
+.hero__list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+.hero__card {
+  width: 150px;
+  height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: red;
+}
+
+.hero__card img {
+  width: 100%;
+  aspect-ratio: 4/5;
+  object-fit: cover;
+}
