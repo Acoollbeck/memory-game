@@ -12,6 +12,9 @@ const heroList = document.createElement('ul');
 const footer = document.createElement('footer');
 const footerContainer = document.createElement('div');
 
+let moves = 0
+let success = 0
+
 
 
 
@@ -29,25 +32,36 @@ footerContainer.classList.add('footer__container', 'container')
 document.body.append(header);
 header.append(headerContainer);
 headerContainer.append(headerScore);
+
 for (let i = 0; i < 2; i++) {
   const headerScoreItem = document.createElement('div');
   const headerScoreLabel = document.createElement('span');
-  const headerScoreValue = document.createElement('span');
+  const headerScoreValueMoves = document.createElement('span');
+  const headerScoreValueSuccess = document.createElement('span');
+
+  
 
   if(i === 1) {
     headerScoreLabel.textContent = 'Moves: ';
-    headerScoreValue.textContent = '0'
+    headerScoreValueMoves.textContent = moves;
+    
+    headerScoreItem.append(headerScoreLabel);
+    headerScoreItem.append(headerScoreValueMoves)
   } else {
     headerScoreLabel.textContent = 'Successfully: ';
-    headerScoreValue.textContent = '0/8'
+    headerScoreValueSuccess.textContent = `${success}/8`
+    
+    headerScoreItem.append(headerScoreLabel);
+    headerScoreItem.append(headerScoreValueSuccess)
   }
 
   headerScoreItem.classList.add('header__score-item');
   headerScoreLabel.classList.add('header__score-label');
-  headerScoreValue.classList.add('header__score-value');
+  headerScoreValueMoves.classList.add('header__score-moves');
+  headerScoreValueSuccess.classList.add('header__score-success');
 
-  headerScoreItem.append(headerScoreLabel);
-  headerScoreItem.append(headerScoreValue)
+
+
   headerScore.prepend(headerScoreItem);
 }
 
@@ -75,6 +89,7 @@ for (let i = 0; i < 16; i++) {
   const heroImage = document.createElement('img');
 
   heroCard.classList.add('hero__card');
+  heroImage.classList.add('hero__img')
   heroCard.append(heroImage);
   heroImage.src = `cards/${[newCards[i]]}.jpg`;
   heroList.append(heroCard);
@@ -85,8 +100,39 @@ footer.append(footerContainer);
 
 
 /////////////////// Main functional ////////////////////////
-
+let count = 0
+let srcTarget = [];
+let cardTarget = []
 heroList.addEventListener('click', (event) => {
-  event.target.style.backgroundColor = 'blue';
-  console.log(event.target);
+  const img = document.querySelectorAll('.hero__img');
+  if (event.target.classList.value === 'hero__img') {
+    if (count === 2) {
+      if (srcTarget[0] === srcTarget[1]) {
+        success++
+        document.querySelector('.header__score-success').innerHTML = `${success}/8`
+        count = 0;
+        srcTarget = [];
+        cardTarget = [];
+        return
+      } else {
+        console.log(srcTarget)
+        count = 0;
+        srcTarget = []
+        cardTarget.forEach((e) => {
+          e.classList.remove('active')
+        })
+        cardTarget = [];
+        return
+      }
+    }
+    moves++
+    document.querySelector('.header__score-moves').innerHTML = moves
+    srcTarget.push(event.target.src);
+    cardTarget.push(event.target)
+    count++
+    event.target.classList.toggle('active')
+    
+  }
+
+
 })

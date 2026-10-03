@@ -35,12 +35,22 @@ body {
   height: 180px;
   display: flex;
   align-items: center;
+  border: solid red;
   justify-content: center;
-  background-color: red;
+  background-color: black
 }
 
-.hero__card img {
+.hero__img {
+  opacity: 0;
   width: 100%;
   aspect-ratio: 4/5;
   object-fit: cover;
+  transition: transform .3s ease-in-out,
+              opacity .3s ease;
 }
+
+ .hero__img.active {
+  opacity: 1;
+  pointer-events: none;
+}
+
