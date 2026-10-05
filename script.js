@@ -1,6 +1,15 @@
 ///////////// DOM tree generate //////////////////////////////
-
+const body = document.querySelector('body')
 const modal = document.createElement('div')
+
+const modalScore = document.createElement('div')
+const modalTitle = document.createElement('h2');
+const modalDescr = document.createElement('p');
+
+const modalButtons = document.createElement('div');
+const modalBtnNew = document.createElement('button');
+const modalBtnClose = document.createElement('button');
+
 
 const header = document.createElement('header');
 const headerContainer = document.createElement('div');
@@ -22,6 +31,16 @@ let success = 0
 
 
 modal.classList.add('modal')
+modalScore.classList.add('modal__score')
+modalTitle.classList.add('modal__title')
+modalDescr.classList.add('modal__descr')
+modalButtons.classList.add('modal__buttons')
+modalBtnNew.classList.add('modal__buttons-new', 'btn')
+modalBtnNew.innerText = 'New Game'
+modalBtnClose.classList.add('modal__buttons-close', 'btn')
+modalBtnClose.innerText = 'Close'
+
+
 
 header.classList.add('header');
 headerContainer.classList.add('header__container', 'container');
@@ -42,7 +61,20 @@ footerContainer.classList.add('footer__container', 'container')
 
 
 document.body.append(header);
+
 document.body.append(modal);
+modal.append(modalScore);
+modalScore.append(modalTitle);
+modalTitle.innerText = 'Поздравляю';
+
+modalScore.append(modalDescr);
+
+
+
+modal.append(modalButtons)
+modalButtons.append(modalBtnNew);
+modalButtons.append(modalBtnClose)
+
 
 header.append(headerContainer);
 
@@ -139,6 +171,7 @@ function resetCount () {
 }
 
 function increaseSuccess() {
+  const img = document.querySelectorAll('.hero__img');
   success++
   document.querySelector('.header__score-success').innerHTML = `${success}/8`
   count = 0;
@@ -146,7 +179,12 @@ function increaseSuccess() {
   cardTarget = [];
 
   if (success === 8) {
-
+    modalDescr.innerText = `Количество затраченных ходов: ${moves}`;
+    modal.classList.add('active');
+    body.classList.add('active');
+    img.forEach(e => {
+      e.style.pointerEvents = 'none'
+    })
   }
 }
 
@@ -215,3 +253,20 @@ headerBtnNew.addEventListener('click', () => {
   resetCount()
   generateCards()
 });
+
+modalBtnClose.addEventListener('click', () => {
+  body.classList.remove('active');
+  modal.classList.remove('active')
+})
+
+modalBtnNew.addEventListener('click', () => {
+  const heroCard = document.querySelectorAll('.hero__card')
+  heroCard.forEach((e) => {
+    e.remove()
+  })
+  body.classList.remove('active');
+  modal.classList.remove('active')
+  resetScore()
+  resetCount()
+  generateCards()
+})
