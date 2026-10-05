@@ -1,7 +1,12 @@
 ///////////// DOM tree generate //////////////////////////////
 
+const modal = document.createElement('div')
+
 const header = document.createElement('header');
 const headerContainer = document.createElement('div');
+const headerBtnNew = document.createElement('button');
+const headerBtnTable = document.createElement('button');
+
 const headerScore = document.createElement('div')
 const headerScoreItem = document.createElement('div');
 
@@ -16,10 +21,17 @@ let moves = 0
 let success = 0
 
 
-
+modal.classList.add('modal')
 
 header.classList.add('header');
 headerContainer.classList.add('header__container', 'container');
+headerBtnNew.classList.add('header__btn-new', 'btn')
+headerBtnNew.innerHTML = 'New Game'
+headerBtnTable.classList.add('header__btn-table', 'btn')
+headerBtnTable.innerHTML = 'Leaderboard'
+
+
+
 headerScore.classList.add('header__score');
 main.classList.add('main');
 hero.classList.add('hero')
@@ -30,8 +42,14 @@ footerContainer.classList.add('footer__container', 'container')
 
 
 document.body.append(header);
+document.body.append(modal);
+
 header.append(headerContainer);
+
 headerContainer.append(headerScore);
+headerScore.append(headerBtnNew)
+headerScore.append(headerBtnTable)
+
 
 for (let i = 0; i < 2; i++) {
   const headerScoreItem = document.createElement('div');
@@ -70,30 +88,37 @@ main.append(hero)
 hero.append(heroContainer);
 heroContainer.append(heroList);
 
-const cards = [];
 
-for (let i = 1; i <= 8; i++) {
-  cards.push(i, i);
+function generateCards() {
+  const cards = [];
+  
+  
+  const newCards = []
+  for (let i = 1; i <= 8; i++) {
+    cards.push(i, i);
+  }
+
+  for (let i = 0; i < 16; i++) {
+    const card = cards[Math.floor(Math.random() * cards.length)]
+    newCards.push(card)
+    cards.splice(cards.indexOf(card), 1);
+  }
+  
+  for (let i = 0; i < 16; i++) {
+    const heroCard = document.createElement('li');
+    const heroImage = document.createElement('img');
+  
+    heroCard.classList.add('hero__card');
+    heroImage.classList.add('hero__img')
+    heroImage.draggable = false;
+    heroCard.append(heroImage);
+    heroImage.src = `cards/${[newCards[i]]}.jpg`;
+    heroList.append(heroCard);
+  }
 }
 
-const newCards = []
+generateCards()
 
-for (let i = 0; i < 16; i++) {
-  const card = cards[Math.floor(Math.random() * cards.length)]
-  newCards.push(card)
-  cards.splice(cards.indexOf(card), 1);
-}
-
-for (let i = 0; i < 16; i++) {
-  const heroCard = document.createElement('li');
-  const heroImage = document.createElement('img');
-
-  heroCard.classList.add('hero__card');
-  heroImage.classList.add('hero__img')
-  heroCard.append(heroImage);
-  heroImage.src = `cards/${[newCards[i]]}.jpg`;
-  heroList.append(heroCard);
-}
 
 document.body.append(footer);
 footer.append(footerContainer);
@@ -103,36 +128,90 @@ footer.append(footerContainer);
 let count = 0
 let srcTarget = [];
 let cardTarget = []
+
+function resetCount () {
+  count = 0;
+  srcTarget = []
+  cardTarget.forEach((e) => {
+    e.classList.remove('active')
+  })
+  cardTarget = [];
+}
+
+function increaseSuccess() {
+  success++
+  document.querySelector('.header__score-success').innerHTML = `${success}/8`
+  count = 0;
+  srcTarget = [];
+  cardTarget = [];
+
+  if (success === 8) {
+
+  }
+}
+
+function checkCount(target) {
+
+  if(count === 2 && srcTarget[0] === srcTarget[1]) {
+    target.forEach((e) => {
+      e.style.pointerEvents = 'none';
+    })
+
+    setTimeout(() => {
+      target.forEach((e) => {
+        e.style.pointerEvents = 'auto';
+      })
+      increaseSuccess()
+    }, 100)
+  }
+
+  if(count === 2 && srcTarget[0] != srcTarget[1]) {
+    target.forEach((e) => {
+      e.style.pointerEvents = 'none';
+    })
+
+    setTimeout(() => {
+      target.forEach((e) => {
+        e.style.pointerEvents = 'auto';
+        resetCount()
+    })
+    }, 1000)
+  }
+}
+
+function resetScore() {
+  moves = 0
+  success = 0
+  srcTarget = [];
+  cardTarget = [];
+  document.querySelector('.header__score-moves').innerHTML = moves;
+  document.querySelector('.header__score-success').innerHTML = `${success}/8`;
+}
+
 heroList.addEventListener('click', (event) => {
   const img = document.querySelectorAll('.hero__img');
   if (event.target.classList.value === 'hero__img') {
-    if (count === 2) {
-      if (srcTarget[0] === srcTarget[1]) {
-        success++
-        document.querySelector('.header__score-success').innerHTML = `${success}/8`
-        count = 0;
-        srcTarget = [];
-        cardTarget = [];
-        return
-      } else {
-        console.log(srcTarget)
-        count = 0;
-        srcTarget = []
-        cardTarget.forEach((e) => {
-          e.classList.remove('active')
-        })
-        cardTarget = [];
-        return
-      }
-    }
+    count++
     moves++
     document.querySelector('.header__score-moves').innerHTML = moves
     srcTarget.push(event.target.src);
     cardTarget.push(event.target)
-    count++
     event.target.classList.toggle('active')
     
+    checkCount(img)
   }
-
-
 })
+
+
+///////////////Click on Btn//////////////////////////
+
+
+headerBtnNew.addEventListener('click', () => {
+  const heroCard = document.querySelectorAll('.hero__card')
+  heroCard.forEach((e) => {
+    e.remove()
+  })
+  resetScore()
+  resetCount()
+  generateCards()
+});

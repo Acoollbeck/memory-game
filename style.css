@@ -3,9 +3,17 @@ ul {
 }
 
 body {
+  position: relative;
   font-family: 'Courier New', Courier, monospace;
   font-weight: 600;
   font-size: 30px;
+}
+
+.btn {
+  width: 100px;
+  height: 30px;
+  cursor: pointer;
+  border: 1px solid rgb(168, 144, 136);
 }
 
 .container {
@@ -23,6 +31,11 @@ body {
   gap: 50px;
 }
 
+.header__btn {
+  width: 100px;
+  height: 30px;
+}
+
 .hero__list {
   display: flex;
   flex-wrap: wrap;
@@ -35,9 +48,10 @@ body {
   height: 180px;
   display: flex;
   align-items: center;
-  border: solid red;
+  border: solid rgb(168, 144, 136);
   justify-content: center;
-  background-color: black
+  background-color: black;
+  cursor: pointer;
 }
 
 .hero__img {
@@ -54,3 +68,14 @@ body {
   pointer-events: none;
 }
 
+
+.modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 1000px;
+  height: 400px;
+  z-index: 1000;
+  background-color: rgba(104, 103, 103, 0.9); 
+}
