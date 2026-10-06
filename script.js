@@ -36,18 +36,18 @@ modalTitle.classList.add('modal__title')
 modalDescr.classList.add('modal__descr')
 modalButtons.classList.add('modal__buttons')
 modalBtnNew.classList.add('modal__buttons-new', 'btn')
-modalBtnNew.innerText = 'New Game'
+modalBtnNew.textContent = 'New Game'
 modalBtnClose.classList.add('modal__buttons-close', 'btn')
-modalBtnClose.innerText = 'Close'
+modalBtnClose.textContent = 'Close'
 
 
 
 header.classList.add('header');
 headerContainer.classList.add('header__container', 'container');
 headerBtnNew.classList.add('header__btn-new', 'btn')
-headerBtnNew.innerText = 'New Game'
+headerBtnNew.textContent = 'New Game'
 headerBtnTable.classList.add('header__btn-table', 'btn')
-headerBtnTable.innerText = 'Leaderboard'
+headerBtnTable.textContent = 'Leaderboard'
 
 
 
@@ -65,7 +65,7 @@ document.body.append(header);
 document.body.append(modal);
 modal.append(modalScore);
 modalScore.append(modalTitle);
-modalTitle.innerText = 'Поздравляю';
+modalTitle.textContent = 'Поздравляю';
 
 modalScore.append(modalDescr);
 
@@ -173,13 +173,13 @@ function resetCount () {
 function increaseSuccess() {
   const img = document.querySelectorAll('.hero__img');
   success++
-  document.querySelector('.header__score-success').innerText = `${success}/8`
+  document.querySelector('.header__score-success').textContent = `${success}/8`
   count = 0;
   srcTarget = [];
   cardTarget = [];
 
   if (success === 8) {
-    modalDescr.innerText = `Количество затраченных ходов: ${moves}`;
+    modalDescr.textContent = `Количество затраченных ходов: ${moves}`;
     modal.classList.add('active');
     body.classList.add('active');
     img.forEach(e => {
@@ -222,8 +222,8 @@ function resetScore() {
   success = 0
   srcTarget = [];
   cardTarget = [];
-  document.querySelector('.header__score-moves').innerText = moves;
-  document.querySelector('.header__score-success').innerText = `${success}/8`;
+  document.querySelector('.header__score-moves').textContent = moves;
+  document.querySelector('.header__score-success').textContent = `${success}/8`;
 }
 
 heroList.addEventListener('click', (event) => {
@@ -231,7 +231,7 @@ heroList.addEventListener('click', (event) => {
   if (event.target.classList.value === 'hero__img') {
     count++
     moves++
-    document.querySelector('.header__score-moves').innerText = moves
+    document.querySelector('.header__score-moves').textContent = moves
     srcTarget.push(event.target.src);
     cardTarget.push(event.target)
     event.target.classList.toggle('active')
