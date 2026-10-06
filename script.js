@@ -191,6 +191,8 @@ function increaseSuccess() {
 function checkCount(target) {
 
   if(count === 2 && srcTarget[0] === srcTarget[1]) {
+    moves++
+    document.querySelector('.header__score-moves').textContent = moves
     target.forEach((e) => {
       e.style.pointerEvents = 'none';
     })
@@ -204,6 +206,8 @@ function checkCount(target) {
   }
 
   if(count === 2 && srcTarget[0] != srcTarget[1]) {
+    moves++
+    document.querySelector('.header__score-moves').textContent = moves
     target.forEach((e) => {
       e.style.pointerEvents = 'none';
     })
@@ -230,8 +234,7 @@ heroList.addEventListener('click', (event) => {
   const img = document.querySelectorAll('.hero__img');
   if (event.target.classList.value === 'hero__img') {
     count++
-    moves++
-    document.querySelector('.header__score-moves').textContent = moves
+    
     srcTarget.push(event.target.src);
     cardTarget.push(event.target)
     event.target.classList.toggle('active')
