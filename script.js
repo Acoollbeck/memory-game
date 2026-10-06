@@ -45,9 +45,9 @@ modalBtnClose.innerText = 'Close'
 header.classList.add('header');
 headerContainer.classList.add('header__container', 'container');
 headerBtnNew.classList.add('header__btn-new', 'btn')
-headerBtnNew.innerHTML = 'New Game'
+headerBtnNew.innerText = 'New Game'
 headerBtnTable.classList.add('header__btn-table', 'btn')
-headerBtnTable.innerHTML = 'Leaderboard'
+headerBtnTable.innerText = 'Leaderboard'
 
 
 
@@ -173,7 +173,7 @@ function resetCount () {
 function increaseSuccess() {
   const img = document.querySelectorAll('.hero__img');
   success++
-  document.querySelector('.header__score-success').innerHTML = `${success}/8`
+  document.querySelector('.header__score-success').innerText = `${success}/8`
   count = 0;
   srcTarget = [];
   cardTarget = [];
@@ -222,8 +222,8 @@ function resetScore() {
   success = 0
   srcTarget = [];
   cardTarget = [];
-  document.querySelector('.header__score-moves').innerHTML = moves;
-  document.querySelector('.header__score-success').innerHTML = `${success}/8`;
+  document.querySelector('.header__score-moves').innerText = moves;
+  document.querySelector('.header__score-success').innerText = `${success}/8`;
 }
 
 heroList.addEventListener('click', (event) => {
@@ -231,7 +231,7 @@ heroList.addEventListener('click', (event) => {
   if (event.target.classList.value === 'hero__img') {
     count++
     moves++
-    document.querySelector('.header__score-moves').innerHTML = moves
+    document.querySelector('.header__score-moves').innerText = moves
     srcTarget.push(event.target.src);
     cardTarget.push(event.target)
     event.target.classList.toggle('active')
